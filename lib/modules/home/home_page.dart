@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+
+import 'package:payflow/modules/extract/extract_page.dart';
 import 'package:payflow/modules/home/home_controller.dart';
+import 'package:payflow/modules/meus_boletos/meus_boletos_page.dart';
+import 'package:payflow/shared/models/user_model.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final UserModel user;
+  const HomePage({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -12,14 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = HomeController();
-  final pages = [
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    )
-  ];
+  final pages = [MeusBoletosPage(), ExtractPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +37,8 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyles.titleRegular,
                   children: [
                     TextSpan(
-                        text: "Paulo", style: TextStyles.titleBoldBackground),
+                        text: "${widget.user.name}",
+                        style: TextStyles.titleBoldBackground),
                   ],
                 ),
               ),
@@ -48,8 +50,11 @@ class _HomePageState extends State<HomePage> {
                 height: 48,
                 width: 48,
                 decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(5)),
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(5),
+                  image: DecorationImage(
+                      image: NetworkImage(widget.user.photoURL!)),
+                ),
               ),
             ),
           ),
@@ -68,7 +73,9 @@ class _HomePageState extends State<HomePage> {
                 },
                 icon: Icon(
                   Icons.home,
-                  color: AppColors.primary,
+                  color: controller.currentPage == 0
+                      ? AppColors.primary
+                      : AppColors.body,
                 )),
             GestureDetector(
               onTap: () {
@@ -94,7 +101,9 @@ class _HomePageState extends State<HomePage> {
                 },
                 icon: Icon(
                   Icons.description_outlined,
-                  color: AppColors.body,
+                  color: controller.currentPage == 1
+                      ? AppColors.primary
+                      : AppColors.body,
                 )),
           ],
         ),

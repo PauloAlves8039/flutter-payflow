@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class AppImages {
   static const logoFull = "assets/images/logofull.png";
   static const logomini = "assets/images/logomini.png";
