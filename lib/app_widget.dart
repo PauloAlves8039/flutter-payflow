@@ -35,7 +35,9 @@ class AppWidget extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/barcode_scanner": (context) => BarcodeScannerPage(),
         "/insert_boleto": (context) => InsertBoletoPage(
-              barcode: ModalRoute.of(context)!.settings.arguments as String,
+              barcode: ModalRoute.of(context) != null
+                  ? ModalRoute.of(context)!.settings.arguments.toString()
+                  : null,
             )
       },
     );
